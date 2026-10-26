@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STUDY SYNC | The Complete B.Tech Engineering Hub</title>
+    <meta name="description" content="All-in-one B.Tech academic platform: semester notes sharing, university PYQs, 10-question mock tests with explanations, and Pomodoro study timer with streak tracking.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%236366f1'><path d='M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM3.45 9L12 4.34 20.55 9 12 13.66 3.45 9zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z'/></svg>">
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Toast Notifications Shelf -->
+    <div id="toastContainer" class="toast-shelf"></div>
+
+    <!-- ========================================== -->
+    <!-- GLOBAL NAVBAR                              -->
+    <!-- ========================================== -->
+    <header class="app-header">
+        <div class="header-container">
+            
+            <!-- Brand Logo -->
+            <div class="brand-logo" onclick="switchTab('notes')">
+                <div class="brand-icon">🎓</div>
+                <div>
+                    <span class="brand-title">STUDY SYNC</span>
+                    <span class="brand-badge">B.Tech Academic Hub</span>
+                </div>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="nav-links">
+                <button onclick="switchTab('notes')" data-tab="notes" class="nav-link active">
+                    <span>📚</span> Notes Hub
+                </button>
+                <button onclick="switchTab('pyqs')" data-tab="pyqs" class="nav-link">
+                    <span>📑</span> PYQ Archive
+                </button>
+                <button onclick="switchTab('mock')" data-tab="mock" class="nav-link">
+                    <span>📝</span> Mock Tests
+                </button>
+                <button onclick="switchTab('timer')" data-tab="timer" class="nav-link">
+                    <span>⏱️</span> Focus Timer
+                </button>
+                <button onclick="switchTab('dashboard')" data-tab="dashboard" class="nav-link">
+                    <span>📊</span> Dashboard
+                </button>
+            </nav>
+
+            <!-- Header Actions: Theme, Auth Buttons, Profile -->
+            <div class="header-actions">
+                
+                <!-- Dark / Light Theme Toggle -->
+                <button onclick="toggleTheme()" class="btn-icon" title="Toggle Light / Dark Mode">
+                    🌓
+                </button>
+
+                <!-- When Logged Out: Login & Register -->
+                <div id="authLoggedOutGroup" style="display: flex; align-items: center; gap: 0.5rem;">
+                    <button onclick="openAuthModal('login')" class="btn-secondary" style="padding: 0.45rem 1rem; font-weight: 700; font-size: 0.85rem; border-radius: var(--radius-md);">
+                        <span>🔐</span> Login
+                    </button>
+                    <button onclick="openAuthModal('register')" class="btn-primary" style="padding: 0.45rem 1rem; font-weight: 700; font-size: 0.85rem; border-radius: var(--radius-md);">
+                        <span>🎓</span> Register
+                    </button>
+                </div>
+
+                <!-- When Logged In: Streak, Upload, Avatar, Logout -->
+                <div id="authLoggedInGroup" class="hidden" style="display: flex; align-items: center; gap: 0.5rem;">
+                    <div class="streak-pill" title="Daily Study Streak">
+                        <span>🔥</span>
+                        <span id="userStreakDays">1d Streak</span>
+                    </div>
+
+                    <button onclick="openUploadModal()" class="btn-primary" style="padding: 0.4rem 0.85rem; font-size: 0.82rem;">
+                        <span>+ Upload</span>
+                    </button>
+
+                    <div onclick="switchTab('dashboard')" style="display: flex; align-items: center; gap: 0.4rem; cursor: pointer; padding: 0.2rem 0.5rem; border-radius: var(--radius-md); background: var(--bg-surface-subtle);" title="View Scholar Dashboard">
+                        <span style="font-size: 1.1rem;">👤</span>
+                        <span id="headerUserName" style="font-size: 0.82rem; font-weight: 700; max-width: 80px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Aarav</span>
+                    </div>
+
+                    <button onclick="handleAuthLogout()" class="btn-icon" style="color: var(--danger); width: 2.1rem; height: 2.1rem;" title="Log Out">
+                        🚪
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <!-- ========================================== -->
+    <!-- MAIN CONTENT SECTIONS                      -->
+    <!-- ========================================== -->
+    <main class="main-content">
+
+        <!-- ========================================== -->
+        <!-- TAB 1: B.TECH NOTES HUB                    -->
+        <!-- ========================================== -->
+        <section id="notesSection">
+            <!-- Hero Banner -->
+            <div class="hero-card">
+                <div class="hero-tag">
+                    <span>✨</span> Verified B.Tech Engineering Study Repository • Sem 1 to Sem 8
+                </div>
+                <h1 class="hero-headline">
+                    Master Your Semester Exams with <br>
+                    <span>STUDY SYNC</span>
+                </h1>
+                <p class="hero-desc">
+                    Access handwritten subject digests, formula cheat-sheets, solved university questions, and exam revision guides contributed by top B.Tech scholars.
+                </p>
+
+                <!-- Hero Action Buttons -->
+                <div style="display: flex; gap: 0.75rem; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap;">
+                    <button onclick="openAuthModal('login')" class="btn-primary" style="padding: 0.7rem 1.4rem;">
+                        <span>🔐</span> Student Login
+                    </button>
+                    <button onclick="openUploadModal()" class="btn-secondary" style="padding: 0.7rem 1.4rem;">
+                        <span>📤</span> Upload Notes (+50 Rep)
+                    </button>
+                    <button onclick="switchTab('timer')" class="btn-secondary" style="padding: 0.7rem 1.4rem; background: var(--bg-surface-subtle);">
+                        <span>⏱️</span> Pomodoro Timer
+                    </button>
+                </div>
+            </div>
+
+            <!-- Search and Filter Bar -->
+            <div class="filter-card">
+                <!-- Search input -->
+                <div style="position: relative;">
+                    <span style="position: absolute; left: 0.85rem; top: 50%; transform: translateY(-50%); font-size: 0.9rem;">🔍</span>
+                    <input 
+                        type="text" 
+                        oninput="handleSearchInput(this.value)" 
+                        placeholder="Search by topic, subject (e.g. Data Structures, Deadlocks, SQL, Subnetting)..." 
+                        class="search-input"
+                    />
+                </div>
+
+                <!-- Branch Filter Row -->
+                <div class="filter-row" id="branchFilters">
+                    <span class="filter-lbl">Branch:</span>
+                    <button onclick="filterByBranch('All')" data-val="All" class="filter-chip active">All</button>
+                    <button onclick="filterByBranch('CSE')" data-val="CSE" class="filter-chip">CSE</button>
+                    <button onclick="filterByBranch('IT')" data-val="IT" class="filter-chip">IT</button>
+                    <button onclick="filterByBranch('ECE')" data-val="ECE" class="filter-chip">ECE</button>
+                    <button onclick="filterByBranch('ME')" data-val="ME" class="filter-chip">ME</button>
+                    <button onclick="filterByBranch('EE')" data-val="EE" class="filter-chip">EE</button>
+                    <button onclick="filterByBranch('CE')" data-val="CE" class="filter-chip">CE</button>
+                </div>
+
+                <!-- Semester Filter Row -->
+                <div class="filter-row" id="semFilters">
+                    <span class="filter-lbl">Semester:</span>
+                    <button onclick="filterBySem('All')" data-val="All" class="filter-chip active">All</button>
+                    <button onclick="filterBySem('Sem 1')" data-val="Sem 1" class="filter-chip">Sem 1</button>
+                    <button onclick="filterBySem('Sem 2')" data-val="Sem 2" class="filter-chip">Sem 2</button>
+                    <button onclick="filterBySem('Sem 3')" data-val="Sem 3" class="filter-chip">Sem 3</button>
+                    <button onclick="filterBySem('Sem 4')" data-val="Sem 4" class="filter-chip">Sem 4</button>
+                    <button onclick="filterBySem('Sem 5')" data-val="Sem 5" class="filter-chip">Sem 5</button>
+                    <button onclick="filterBySem('Sem 6')" data-val="Sem 6" class="filter-chip">Sem 6</button>
+                    <button onclick="filterBySem('Sem 7')" data-val="Sem 7" class="filter-chip">Sem 7</button>
+                    <button onclick="filterBySem('Sem 8')" data-val="Sem 8" class="filter-chip">Sem 8</button>
+                </div>
+            </div>
+
+            <!-- Notes Grid -->
+            <div id="notesGrid" class="notes-grid"></div>
+        </section>
+
+
+        <!-- ========================================== -->
+        <!-- TAB 2: UNIVERSITY PYQ ARCHIVE              -->
+        <!-- ========================================== -->
+        <section id="pyqsSection" class="hidden">
+            <div style="margin-bottom: 2rem;">
+                <h2 style="font-size: 1.85rem; font-weight: 800; margin-bottom: 0.4rem;">
+                    University Previous Year Questions (PYQ)
+                </h2>
+                <p style="color: var(--text-secondary); font-size: 0.95rem;">
+                    Verified mid-term and end-semester past papers organized for fast download and exam preparation.
+                </p>
+            </div>
+
+            <div id="pyqsGrid" class="notes-grid"></div>
+        </section>
+
+
+        <!-- ========================================== -->
+        <!-- TAB 3: MOCK TEST SIMULATOR (10 Questions)  -->
+        <!-- ========================================== -->
+        <section id="mockSection" class="hidden">
+            
+            <!-- View A: Test Catalog -->
+            <div id="mockCatalogView">
+                <div style="margin-bottom: 2rem;">
+                    <h2 style="font-size: 1.85rem; font-weight: 800; margin-bottom: 0.4rem;">
+                        Subject-Wise Mock Test Simulator
+                    </h2>
+                    <p style="color: var(--text-secondary); font-size: 0.95rem;">
+                        Timed 10-question practice papers with automatic score evaluation and post-submission solution keys.
+                    </p>
+                </div>
+                <div id="mockTestsList" class="notes-grid"></div>
+            </div>
+
+            <!-- View B: Active Test Runner -->
+            <div id="mockActiveView" class="hidden" style="max-width: 720px; margin: 0 auto;">
+                <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <div>
+                        <h3 id="mockTestTitle" style="font-size: 1.1rem; font-weight: 800;">Mock Exam</h3>
+                        <span id="mockQuestionNumber" style="font-size: 0.75rem; color: var(--text-muted);">Question 1 of 10</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0.85rem; border-radius: var(--radius-md); background: var(--warning-bg); border: 1px solid rgba(245, 158, 11, 0.4); font-family: var(--font-mono); font-weight: 800; color: var(--warning);">
+                        <span>⏱️</span>
+                        <span id="mockTimerClock">15:00</span>
+                    </div>
+                </div>
+
+                <!-- Palette -->
+                <div id="mockQuestionPalette" style="display: flex; flex-wrap: wrap; gap: 0.4rem; background: var(--bg-surface); padding: 0.75rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle); margin-bottom: 1.25rem;"></div>
+
+                <!-- Question Box -->
+                <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: 2rem; box-shadow: var(--shadow-md);">
+                    <h4 id="mockQuestionText" style="font-size: 1.15rem; font-weight: 700; margin-bottom: 1.5rem; line-height: 1.5;">Question...</h4>
+                    <div id="mockOptionsContainer" style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 2rem;"></div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; pt-4; border-top: 1px solid var(--border-subtle); padding-top: 1rem;">
+                        <button onclick="prevMockQuestion()" class="btn-secondary">← Previous</button>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button onclick="nextMockQuestion()" class="btn-secondary">Next →</button>
+                            <button onclick="submitMockTest()" class="btn-primary" style="background: var(--success);">✔ Submit Mock Exam</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- View C: Post-Submission Results & Detailed Keys -->
+            <div id="mockResultsView" class="hidden" style="max-width: 760px; margin: 0 auto;">
+                <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: 2.5rem; text-align: center; margin-bottom: 2rem; box-shadow: var(--shadow-lg);">
+                    <span style="font-size: 3rem; display: block; margin-bottom: 0.5rem;">🏆</span>
+                    <h3 id="mockResultStatus" style="font-size: 1.75rem; font-weight: 900; margin-bottom: 0.35rem;">Exam Completed!</h3>
+                    <div id="mockResultScore" style="font-size: 2.5rem; font-weight: 900; color: var(--primary); font-family: var(--font-mono);">8 / 10</div>
+                    <p id="mockResultPercent" style="font-size: 0.9rem; font-weight: 700; color: var(--success); margin-bottom: 1.5rem;">80% Accuracy</p>
+                    <button onclick="exitMockTest()" class="btn-primary" style="padding: 0.65rem 1.75rem;">Back to Test Catalog</button>
+                </div>
+
+                <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 1rem;">Detailed Answer Key & Explanations:</h3>
+                <div id="mockAnswerKeysContainer"></div>
+            </div>
+
+        </section>
+
+
+        <!-- ========================================== -->
+        <!-- TAB 4: POMODORO FOCUS STUDY TIMER          -->
+        <!-- ========================================== -->
+        <section id="timerSection" class="hidden">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <h2 style="font-size: 2rem; font-weight: 900; margin-bottom: 0.35rem;">
+                    Pomodoro Study Focus Timer
+                </h2>
+                <p style="color: var(--text-secondary); font-size: 0.95rem;">
+                    Scientific 25/5 study sprints with automatic audio bell alerts to keep your semester streak growing.
+                </p>
+            </div>
+
+            <div class="timer-container">
+                <div style="display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 1.5rem;">
+                    <button onclick="PomodoroEngine.setMode('work')" data-mode="work" class="btn-secondary timer-mode-btn btn-primary">
+                        Study Focus (25m)
+                    </button>
+                    <button onclick="PomodoroEngine.setMode('short')" data-mode="short" class="btn-secondary timer-mode-btn">
+                        Short Break (5m)
+                    </button>
+                    <button onclick="PomodoroEngine.setMode('long')" data-mode="long" class="btn-secondary timer-mode-btn">
+                        Long Break (15m)
+                    </button>
+                </div>
+
+                <div id="timerClockText" class="timer-clock">25:00</div>
+
+                <div style="display: flex; justify-content: center; gap: 0.75rem; margin-bottom: 1.5rem;">
+                    <button id="timerStartBtn" onclick="PomodoroEngine.toggle()" class="btn-primary" style="padding: 0.75rem 2rem; font-size: 1.05rem;">
+                        <span>▶️</span> Start Focus
+                    </button>
+                    <button onclick="PomodoroEngine.reset()" class="btn-secondary" style="padding: 0.75rem 1.25rem;">
+                        ↺ Reset
+                    </button>
+                </div>
+
+                <p style="font-size: 0.75rem; color: var(--text-muted);">
+                    🔔 Built-in Web Audio Bell Chime sounds automatically when timer reaches zero.
+                </p>
+            </div>
+        </section>
+
+
+        <!-- ========================================== -->
+        <!-- TAB 5: SCHOLAR DASHBOARD & STATS           -->
+        <!-- ========================================== -->
+        <section id="dashboardSection" class="hidden">
+            <!-- Scholar Profile Card -->
+            <div class="hero-card" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem; margin-bottom: 2rem;">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <div style="width: 4rem; height: 4rem; border-radius: var(--radius-lg); background: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white;">
+                        🎓
+                    </div>
+                    <div>
+                        <h2 id="dashUserName" style="font-size: 1.5rem; font-weight: 800;">Aarav Sharma</h2>
+                        <p id="dashUserBranch" style="font-size: 0.85rem; color: var(--primary); font-weight: 700;">CSE • 3rd Year</p>
+                        <p id="dashUserEmail" style="font-size: 0.75rem; color: var(--text-muted);">aarav@college.edu</p>
+                    </div>
+                </div>
+
+                <button onclick="openUploadModal()" class="btn-primary">
+                    <span>📤</span> Upload Notes
+                </button>
+            </div>
+
+            <!-- Stats Grid -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+                <div style="background: var(--bg-surface); padding: 1.25rem; border-radius: var(--radius-lg); border: 1px solid var(--border-subtle); text-align: center;">
+                    <span style="font-size: 0.75rem; font-weight: 700; color: var(--warning); text-transform: uppercase;">Study Streak</span>
+                    <div id="dashStreakCount" style="font-size: 2rem; font-weight: 900; color: var(--text-main); margin-top: 0.25rem;">8 Days</div>
+                </div>
+                <div style="background: var(--bg-surface); padding: 1.25rem; border-radius: var(--radius-lg); border: 1px solid var(--border-subtle); text-align: center;">
+                    <span style="font-size: 0.75rem; font-weight: 700; color: var(--primary); text-transform: uppercase;">Focus Time</span>
+                    <div id="dashFocusHours" style="font-size: 2rem; font-weight: 900; color: var(--text-main); margin-top: 0.25rem;">5.3h</div>
+                </div>
+                <div style="background: var(--bg-surface); padding: 1.25rem; border-radius: var(--radius-lg); border: 1px solid var(--border-subtle); text-align: center;">
+                    <span style="font-size: 0.75rem; font-weight: 700; color: var(--secondary); text-transform: uppercase;">Uploaded Notes</span>
+                    <div id="dashUploadsCount" style="font-size: 2rem; font-weight: 900; color: var(--text-main); margin-top: 0.25rem;">2</div>
+                </div>
+                <div style="background: var(--bg-surface); padding: 1.25rem; border-radius: var(--radius-lg); border: 1px solid var(--border-subtle); text-align: center;">
+                    <span style="font-size: 0.75rem; font-weight: 700; color: var(--success); text-transform: uppercase;">Saved PYQs</span>
+                    <div id="dashSavedCount" style="font-size: 2rem; font-weight: 900; color: var(--text-main); margin-top: 0.25rem;">1</div>
+                </div>
+            </div>
+
+            <!-- Recent Activity Timeline -->
+            <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: 1.5rem;">
+                <h3 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 1rem;">Recent Scholar Activity:</h3>
+                <div id="dashHistoryList"></div>
+            </div>
+        </section>
+
+    </main>
+
+
+    <!-- ========================================== -->
+    <!-- MODAL 1: AUTHENTICATION (LOGIN & REGISTER) -->
+    <!-- ========================================== -->
+    <div id="authModal" class="modal-overlay hidden" onclick="if(event.target === this) closeAuthModal()">
+        <div class="modal-container" style="max-width: 440px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border-subtle);">
+                <div style="display: flex; align-items: center; gap: 0.6rem;">
+                    <div style="width: 36px; height: 36px; border-radius: 10px; background: var(--primary); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.1rem;">
+                        🎓
+                    </div>
+                    <div>
+                        <h3 id="authModalTitle" style="font-size: 1.15rem; font-weight: 800;">Student Login</h3>
+                        <p style="font-size: 0.75rem; color: var(--text-muted);">Access B.Tech Notes, PYQs & Streaks</p>
+                    </div>
+                </div>
+                <button type="button" onclick="closeAuthModal()" class="btn-icon" style="border: none;">✕</button>
+            </div>
+
+            <!-- Tab Switcher -->
+            <div style="display: flex; background: var(--bg-surface-subtle); padding: 4px; border-radius: var(--radius-md); margin-bottom: 1.25rem;">
+                <button id="authTabLoginBtn" type="button" onclick="switchAuthTab('login')" style="flex: 1; padding: 0.5rem; font-size: 0.85rem; font-weight: 700; border: none; border-radius: var(--radius-sm); cursor: pointer; background: var(--bg-surface); color: var(--text-main); box-shadow: var(--shadow-sm);">
+                    Sign In
+                </button>
+                <button id="authTabRegisterBtn" type="button" onclick="switchAuthTab('register')" style="flex: 1; padding: 0.5rem; font-size: 0.85rem; font-weight: 700; border: none; border-radius: var(--radius-sm); cursor: pointer; background: transparent; color: var(--text-muted);">
+                    Register (New)
+                </button>
+            </div>
+
+            <!-- LOGIN FORM -->
+            <form id="loginForm" onsubmit="handleLoginSubmit(event)" style="display: flex; flex-direction: column; gap: 1rem;">
+                <div>
+                    <label style="display: block; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.35rem; color: var(--text-secondary);">College Email</label>
+                    <input type="email" id="loginEmail" required placeholder="student@college.edu.in" class="search-input" style="padding-left: 1rem;" value="aarav.cse@btech.edu" />
+                </div>
+                <div>
+                    <label style="display: block; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.35rem; color: var(--text-secondary);">Password</label>
+                    <input type="password" id="loginPassword" required placeholder="••••••••" class="search-input" style="padding-left: 1rem;" value="password123" />
+                </div>
+                <button type="submit" class="btn-primary" style="padding: 0.75rem; font-weight: 700; border-radius: var(--radius-md); justify-content: center;">
+                    Sign In to Study Sync
+                </button>
+                <button type="button" onclick="quickDemoLogin()" class="btn-secondary" style="padding: 0.65rem; font-size: 0.8rem; font-weight: 600; border-radius: var(--radius-md); border: 1px dashed var(--primary); color: var(--primary); justify-content: center; background: var(--primary-light);">
+                    ⚡ Quick 1-Click Demo Login
+                </button>
+            </form>
+
+            <!-- REGISTER FORM -->
+            <form id="registerForm" class="hidden" onsubmit="handleRegisterSubmit(event)" style="display: flex; flex-direction: column; gap: 0.85rem;">
+                <div>
+                    <label style="display: block; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.35rem; color: var(--text-secondary);">Full Name</label>
+                    <input type="text" id="regName" required placeholder="e.g. Aarav Sharma" class="search-input" style="padding-left: 1rem;" />
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                    <div>
+                        <label style="display: block; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.35rem; color: var(--text-secondary);">Branch</label>
+                        <select id="regBranch" class="search-input" style="padding-left: 0.75rem;">
+                            <option value="CSE">CSE</option>
+                            <option value="IT">IT</option>
+                            <option value="ECE">ECE</option>
+                            <option value="EE">EE</option>
+                            <option value="ME">ME</option>
+                            <option value="CE">CE</option>
+                            <option value="AIML">AIML</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.35rem; color: var(--text-secondary);">Year</label>
+                        <select id="regYear" class="search-input" style="padding-left: 0.75rem;">
+                            <option value="1st Year">1st Year</option>
+                            <option value="2nd Year">2nd Year</option>
+                            <option value="3rd Year">3rd Year</option>
+                            <option value="4th Year">4th Year</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label style="display: block; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.35rem; color: var(--text-secondary);">College Email</label>
+                    <input type="email" id="regEmail" required placeholder="name@college.edu.in" class="search-input" style="padding-left: 1rem;" />
+                </div>
+                <div>
+                    <label style="display: block; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.35rem; color: var(--text-secondary);">Password</label>
+                    <input type="password" id="regPassword" required minlength="6" placeholder="At least 6 characters" class="search-input" style="padding-left: 1rem;" />
+                </div>
+                <button type="submit" class="btn-primary" style="padding: 0.75rem; font-weight: 700; border-radius: var(--radius-md); justify-content: center; margin-top: 0.5rem;">
+                    Create Free Scholar Profile
+                </button>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- MODAL 2: NOTE READER & COMMENTS THREAD     -->
+    <!-- ========================================== -->
+    <div id="noteReaderModal" class="modal-overlay hidden" onclick="if(event.target === this) closeNoteReader()">
+        <div class="modal-container" style="max-width: 780px;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.25rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-subtle);">
+                <div>
+                    <span id="readerSubject" class="badge-branch" style="margin-bottom: 0.5rem; display: inline-block;">Subject</span>
+                    <h2 id="readerTitle" style="font-size: 1.35rem; font-weight: 800; line-height: 1.3; margin-top: 0.25rem;">Note Title</h2>
+                    <p id="readerUploader" style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;">Uploaded by Student</p>
+                </div>
+                <button onclick="closeNoteReader()" class="btn-icon">✕</button>
+            </div>
+
+            <!-- Note Body Content -->
+            <div id="readerContent" style="font-size: 0.9rem; line-height: 1.7; color: var(--text-secondary); margin-bottom: 2rem; background: var(--bg-surface-subtle); padding: 1.5rem; border-radius: var(--radius-lg);"></div>
+
+            <!-- Discussion & Comments -->
+            <div style="border-top: 1px solid var(--border-subtle); padding-top: 1.5rem;">
+                <h3 style="font-size: 1.05rem; font-weight: 800; margin-bottom: 1rem;">💬 Discussion & Clarifications</h3>
+                <div id="readerCommentsList" style="margin-bottom: 1rem;"></div>
+
+                <form onsubmit="addReaderComment(event)" style="display: flex; gap: 0.5rem;">
+                    <input type="text" id="newCommentInput" placeholder="Ask a doubt or thank the uploader..." class="search-input" style="padding-left: 1rem;" />
+                    <button type="submit" class="btn-primary" style="flex-shrink: 0;">Post</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- MODAL 3: UPLOAD NEW NOTE                   -->
+    <!-- ========================================== -->
+    <div id="uploadNoteModal" class="modal-overlay hidden" onclick="if(event.target === this) closeUploadModal()">
+        <div class="modal-container" style="max-width: 580px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border-subtle);">
+                <h3 style="font-size: 1.2rem; font-weight: 800;">📤 Upload & Share Notes</h3>
+                <button onclick="closeUploadModal()" class="btn-icon">✕</button>
+            </div>
+
+            <form onsubmit="handleUploadNoteSubmit(event)" style="display: flex; flex-direction: column; gap: 1rem;">
+                <div>
+                    <label style="display: block; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.35rem;">Note Title *</label>
+                    <input type="text" id="uploadTitle" required placeholder="e.g. Complete Dynamic Programming Notes" class="search-input" style="padding-left: 1rem;" />
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                    <div>
+                        <label style="display: block; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.35rem;">Subject *</label>
+                        <input type="text" id="uploadSubject" required placeholder="e.g. Data Structures" class="search-input" style="padding-left: 1rem;" />
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.35rem;">Semester *</label>
+                        <select id="uploadSemester" class="search-input" style="padding-left: 0.75rem;">
+                            <option value="Sem 1">Sem 1</option>
+                            <option value="Sem 2">Sem 2</option>
+                            <option value="Sem 3">Sem 3</option>
+                            <option value="Sem 4">Sem 4</option>
+                            <option value="Sem 5">Sem 5</option>
+                            <option value="Sem 6">Sem 6</option>
+                            <option value="Sem 7">Sem 7</option>
+                            <option value="Sem 8">Sem 8</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label style="display: block; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.35rem;">Branch *</label>
+                    <select id="uploadBranch" class="search-input" style="padding-left: 0.75rem;">
+                        <option value="CSE">CSE</option>
+                        <option value="IT">IT</option>
+                        <option value="ECE">ECE</option>
+                        <option value="EE">EE</option>
+                        <option value="ME">ME</option>
+                        <option value="CE">CE</option>
+                        <option value="AIML">AIML</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label style="display: block; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.35rem;">Description & Chapters Covered *</label>
+                    <textarea id="uploadDesc" rows="3" required placeholder="Summarize key formulas, chapters, and topics covered..." class="search-input" style="padding: 0.75rem; resize: vertical;"></textarea>
+                </div>
+
+                <div>
+                    <label style="display: block; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.35rem;">Tags (comma separated)</label>
+                    <input type="text" id="uploadTags" placeholder="DSA, Trees, BFS, Graphs" class="search-input" style="padding-left: 1rem;" />
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 0.5rem;">
+                    <button type="button" onclick="closeUploadModal()" class="btn-secondary">Cancel</button>
+                    <button type="submit" class="btn-primary">Publish Notes (+50 Rep)</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- FOOTER                                     -->
+    <!-- ========================================== -->
+    <footer style="border-top: 1px solid var(--border-subtle); background: var(--bg-surface); padding: 2.5rem 1.25rem; margin-top: auto;">
+        <div style="max-width: 1280px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; font-size: 0.85rem; color: var(--text-muted);">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <strong style="color: var(--text-main);">STUDY SYNC</strong>
+                <span>• The Premier Academic Platform for B.Tech Engineers</span>
+            </div>
+            <div style="display: flex; gap: 1.5rem;">
+                <span onclick="switchTab('notes')" style="cursor: pointer; color: var(--primary);">Notes</span>
+                <span onclick="switchTab('pyqs')" style="cursor: pointer; color: var(--primary);">PYQs</span>
+                <span onclick="switchTab('mock')" style="cursor: pointer; color: var(--primary);">Mock Tests</span>
+                <span onclick="switchTab('timer')" style="cursor: pointer; color: var(--primary);">Timer</span>
+            </div>
+            <div>© 2026 STUDY SYNC. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <!-- Core Script -->
+    <script src="app.js"></script>
+</body>
+</html>
