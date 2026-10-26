@@ -1,8 +1,6 @@
 # STUDY SYNC - B.Tech Academic Hub 🎓⚡
 
-A modern, responsive, and complete academic web application designed specifically for B.Tech engineering scholars (Semesters 1 to 8).
-
-Built to run **100% smoothly on GitHub Pages** and anywhere offline with **zero installations, zero server setup, and zero dependencies**.
+A modern, responsive, and complete academic web application designed specifically for B.Tech engineering scholars (Semesters 1 to 8)
 
 ---
 
