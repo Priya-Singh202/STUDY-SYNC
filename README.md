@@ -45,26 +45,4 @@ A modern, responsive, and complete academic web application designed specificall
    - Sleek Dark Mode and Light Mode with instant toggle and persistence.
    - Fully responsive for mobile, tablets, and desktop.
 
----
-
-## 🚀 How to Make It Live on GitHub Pages (2 Minutes)
-
-1. Open your repository on [github.com](https://github.com).
-2. Click **Add file** ➔ **Upload files**.
-3. Drag these 4 files from this folder:
-   - `index.html`
-   - `styles.css`
-   - `app.js`
-   - `.nojekyll`
-4. Click the green **Commit changes** button.
-5. In your GitHub repository:
-   - Go to **Settings** (top tab) ➔ **Pages** (left menu).
-   - Under **Build and deployment** > **Branch**: select **`main`** (or `master`) and folder **`/ (root)`**.
-   - Click **Save**.
-6. Your website is now live! Open the generated URL (e.g. `https://yourusername.github.io/repository-name/`).
-
----
-
-## 💻 How to Open Locally on Your PC
-
-Simply **double-click `index.html`** in your File Explorer! It will immediately open in Google Chrome, Edge, or Brave with all features functioning.
+--
